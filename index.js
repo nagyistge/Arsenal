@@ -16,4 +16,7 @@ module.exports = {
             MPU: require('./lib/algos/list/MPU').MultipartUploads,
         },
     },
+    testing: {
+        matrix: require('./lib/testing/matrix.js'),
+    },
 };
