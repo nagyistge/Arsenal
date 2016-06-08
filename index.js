@@ -11,4 +11,5 @@ module.exports = {
     },
     delimiter: require('./lib/extension/delimiter.extension'),
     listMPU: require('./lib/extension/listMPU.extension'),
+    Clustering: require('./lib/Clustering'),
 };

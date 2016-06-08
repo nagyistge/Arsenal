@@ -56,5 +56,72 @@ console.log(errors.AccessDenied);
 
 ```
 
+## Clustering
+
+The clustering class can be used to set up a cluster of workers. The class will
+create at least 1 worker, will log any worker event (started, exited).
+The class has also a watchdog who will restart workers until the stop() method
+is called.
+
+### Usage
+
+#### Simple
+
+```
+import { Clustering } from 'arsenal';
+
+const clusters = new Clustering(clusterSize, logger);
+clusters.start(current => {
+    // Put here the logic of every worker.
+    // 'current' is the Clustering instance, worker id is accessible by
+    // current.getIndex()
+});
+```
+
+The callback will be called every time a worker is started/restarted.
+
+#### Handle exit
+
+```
+import { Clustering } from 'arsenal';
+
+const clusters = new Clustering(clusterSize, logger);
+clusters.start(current => {
+    // Put here the logic of every worker.
+    // 'current' is the Clustering instance, worker id is accessible by
+    // current.getIndex()
+}).onExit(current => {
+    if (current.isMaster()) {
+        // Master process exiting
+    } else {
+        const id = current.getIndex();
+        // Worker (id) exiting
+    }
+});
+```
+
+You can handle the exiting event on both master and workers by calling the
+'onExit' method and setting the callback. That allow release ressources  or
+save states before exiting a worker or the master.
+
+#### Silenting signal
+
+```
+import { Clustering } from 'arsenal';
+
+const clusters = new Clustering(clusterSize, logger);
+clusters.start(current => {
+    // Put here the logic of every worker.
+    // 'current' is the Clustering instance, worker id is accessible by
+    // current.getIndex()
+}).onExit((current, signal) => {
+    if (signal !== 'SIGTERM') {
+        process.exit(current.getStatus());
+    }
+});
+```
+
+You can silent stop signals, by simply not exiting on the exit callback
+
 [badgepub]: https://circleci.com/gh/scality/Arsenal.svg?style=svg
 [badgepriv]: http://ci.ironmann.io/gh/scality/Arsenal.svg?style=svg&circle-token=c3d2570682cba6763a97ea0bc87521941413d75c
