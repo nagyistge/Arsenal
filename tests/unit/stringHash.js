@@ -33,8 +33,10 @@ describe('StringHash', () => {
     });
     it(`Sould distribute uniformly with a maximum of ${ERROR}% of deviation`,
         done => {
-            const strings = new Array(STRING_COUNT).fill('')
-                                .map(() => randomString(10));
+            const strings = [];
+            for (let i = 0; i < STRING_COUNT; ++i) {
+                strings.push(randomString(10));
+            }
             const arr = new Array(ARRAY_LENGTH).fill(0);
             strings.forEach(string => {
                 const ind = stringHash(string) % ARRAY_LENGTH;

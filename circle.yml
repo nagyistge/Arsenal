@@ -6,7 +6,7 @@ general:
 
 machine:
   node:
-    version: 4.2
+    version: 6.2.1
 
 dependencies:
   pre:
