@@ -26,7 +26,7 @@ describe('Matrix', () => {
                 assert.equal(testMatrix.params.auth !== undefined, true);
                 ++numberOfCall;
                 done();
-            });
+            }, "should generate matrix");
         }).execute();
 
         describe('Check if matrix was well generated', () => {
@@ -57,11 +57,11 @@ describe('Matrix', () => {
                 assert.equal(testMatrix.params.auth === 'v2', true);
                 ++numberOfCallV2;
                 done();
-            }).if(ifParams, (testMatrix, done) => {
+            }, "should use v2 auth").if(ifParams, (testMatrix, done) => {
                 assert.equal(testMatrix.params.auth === 'v4', true);
                 ++numberOfCallV4;
                 done();
-            });
+            }, "should use v4 auth");
         }).execute();
 
         describe('Check if matrix was well generated', () => {
@@ -90,7 +90,7 @@ describe('Matrix', () => {
             testMatrix.generate(['delimiter', 'prefix'], (testMatrix, done) => {
                 assert(testMatrix.params.auth !== undefined, true);
                 done();
-            }).if(ifParams, (testMatrix, done) => {
+            }, "should generate matrix").if(ifParams, (testMatrix, done) => {
                 const isAbcd = testMatrix.params.delimiter === 'abcd';
                 const isUndefined = testMatrix.params.delimiter === undefined;
 
@@ -101,7 +101,7 @@ describe('Matrix', () => {
                     callAbcd = true;
                 }
                 done();
-            });
+            }, "should call specific delimiter");
         }).execute();
 
         describe('Check if matrix was well generated', () => {
@@ -131,7 +131,7 @@ describe('Matrix', () => {
             testMatrix.generate(['delimiter', 'prefix'], (testMatrix, done) => {
                 assert(testMatrix.params.auth !== undefined, true);
                 done();
-            }).if(ifParams, (testMatrix, done) => {
+            }, "should generate matrix").if(ifParams, (testMatrix, done) => {
                 const isV4 = testMatrix.params.auth === 'v4';
                 const isAbcd = testMatrix.params.delimiter === 'abcd';
                 const isUndefined = testMatrix.params.delimiter === undefined;
@@ -143,7 +143,7 @@ describe('Matrix', () => {
                     callAbcd = true;
                 }
                 done();
-            });
+            }, "should call specific delimiter");
         }).execute();
 
         describe('Check if matrix was well generated', () => {
@@ -176,7 +176,7 @@ describe('Matrix', () => {
             assert(testMatrix.params.auth !== undefined, true);
             hasBeenCalled = true;
             done();
-        }).execute();
+        }, "should generate matrix").execute();
 
         describe('Check if matrix was well generated', () => {
             it('Has been called', done => {
@@ -200,7 +200,7 @@ describe('Matrix', () => {
             (testMatrix, done) => {
                 assert(testMatrix.params.auth !== undefined, true);
                 done();
-            }).execute();
+            }, "should generate matrix").execute();
         } catch (e) {
             anExceptionWasFound = true;
         }
@@ -218,7 +218,7 @@ describe('Matrix', () => {
             testMatrix.generate(['auth'], (testMatrix) => {
                 testMatrix.generate(['auth'], (testMatrix) => {
                     assert(testMatrix.params.auth !== undefined, true);
-                });
+                }, "should generate matrix");
             }).execute();
         } catch (e) {
             anExceptionWasFound = true;
@@ -238,10 +238,10 @@ describe('Matrix', () => {
             testMatrix.generate(['delimiter', 'prefix'], (testMatrix, done) => {
                 assert(testMatrix.params.auth !== undefined, true);
                 done();
-            }).if(ifParams, (testMatrix, done) => {
+            }, "should generate matrix").if(ifParams, (testMatrix, done) => {
                 assert(testMatrix.params.auth !== undefined, true);
                 done();
-            });
+            }, "should not run");
         }).execute();
     });
 
@@ -254,6 +254,6 @@ describe('Matrix', () => {
             assert(testMatrix.params.auth.auth === 'v2'
             || testMatrix.params.auth.auth === 'v4', true);
             done();
-        }).execute();
+        }, "should generate matrix").execute();
     });
 });
